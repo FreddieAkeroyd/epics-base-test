@@ -87,11 +87,11 @@ test_script:
 #         notifications           #
 #---------------------------------#
 
-notifications:
-
-  - provider: Email
-    to:
-      - core-talk@aps.anl.gov
-    on_build_success: false
-
-  - provider: GitHubPullRequest
+#notifications:
+#
+#  - provider: Email
+#    to:
+#      - core-talk@aps.anl.gov
+#    on_build_success: false
+#
+#  - provider: GitHubPullRequest
