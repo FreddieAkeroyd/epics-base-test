@@ -12,6 +12,7 @@
 
 #include <errSymTbl.h>
 #include <epicsString.h>
+#include <osiSock.h>
 #include <osiFileName.h>
 #include <errlog.h>
 
@@ -145,10 +146,12 @@ static void testUseIP(void)
 
 MAIN(aslibtest)
 {
+    osiSockAttach(); /* needed as we lookup hostnames */
     testPlan(27);
     testSyntaxErrors();
     testHostNames();
     testUseIP();
     errlogFlush();
+    osiSockRelease();
     return testDone();
 }
