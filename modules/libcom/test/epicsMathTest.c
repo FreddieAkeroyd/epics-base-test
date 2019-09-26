@@ -21,34 +21,41 @@ MAIN(epicsMathTest)
     double tiny = 1e-300;
     double c;
     
-    testPlan(35);
+    testPlan(42);
     
     testOk1(!isnan(0.0));
     testOk1(!isinf(0.0));
     
     testOk1(!isnan(epicsINF));
     testOk1(isinf(epicsINF));
+    testOk1(isinf(-epicsINF));
     testOk1(epicsINF == epicsINF);
     testOk1(epicsINF > 0.0);
+    testOk1(!(epicsINF < 0.0));
+    testOk1(-epicsINF < 0.0);
+    testOk1(epicsINF + epicsINF == epicsINF);
     testOk1(epicsINF - epicsINF != 0.0);
+    testOk1(epicsINF - epicsINF != epicsINF);
 
-#if defined(_WIN64) && defined(_MSC_VER)
+#if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoBegin("Known failure on windows-x64");
 #endif
-    testOk1(epicsINF + -epicsINF != 0.0);
-    testOk1(-epicsINF + epicsINF != 0.0);
-#if defined(_WIN64) && defined(_MSC_VER)
+    testOk1(epicsINF + (-epicsINF) != 0.0);
+    testOk1((-epicsINF) + epicsINF != 0.0);
+#if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoEnd();
 #endif
 
     testOk1(isnan(epicsINF - epicsINF));
+    testOk1(isnan(0.0 * epicsINF));
+    testOk1(isnan(epicsINF /epicsINF));
 
-#if defined(_WIN64) && defined(_MSC_VER)
+#if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoBegin("Known failure on windows-x64");
 #endif
-    testOk1(isnan(epicsINF + -epicsINF));
-    testOk1(isnan(-epicsINF + epicsINF));
-#if defined(_WIN64) && defined(_MSC_VER)
+    testOk1(isnan(epicsINF + (-epicsINF)));
+    testOk1(isnan((-epicsINF) + epicsINF));
+#if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoEnd();
 #endif
     
@@ -62,12 +69,12 @@ MAIN(epicsMathTest)
     testOk1(!(epicsNAN > epicsNAN));
     testOk1(isnan(epicsNAN - epicsNAN));
 
-#if defined(_WIN64) && defined(_MSC_VER)
+#if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoBegin("Known failure on windows-x64");
 #endif
-    testOk1(isnan(epicsNAN + -epicsNAN));
-    testOk1(isnan(-epicsNAN + epicsNAN));
-#if defined(_WIN64) && defined(_MSC_VER)
+    testOk1(isnan(epicsNAN + (-epicsNAN)));
+    testOk1(isnan((-epicsNAN) + epicsNAN));
+#if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoEnd();
 #endif
     
