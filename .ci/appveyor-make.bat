@@ -8,8 +8,15 @@
 
 Setlocal EnableDelayedExpansion
 
+:: we do not currently have combined static and debug targets
+:: the debug part of sttaic is handled via CONFIG_SITE in appveyor-prepare 
 set "ST="
-if /i "%CONFIGURATION%"=="static" set ST=-static
+echo.%CONFIGURATION% | findstr /C:"debug">nul && (
+	set "ST=-debug"
+)
+echo.%CONFIGURATION% | findstr /C:"static">nul && (
+	set "ST=-static"
+)
 
 set OS=64BIT
 if "%PLATFORM%"=="x86" set OS=32BIT

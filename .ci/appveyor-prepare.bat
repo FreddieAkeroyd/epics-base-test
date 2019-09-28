@@ -16,20 +16,21 @@ if "%PLATFORM%"=="x86" set OS=32BIT
 
 echo [INFO] Platform: %OS%
 
+echo.%CONFIGURATION% | findstr /C:"static">nul && (
+	echo SHARED_LIBRARIES=NO>> configure\CONFIG_SITE
+	echo STATIC_BUILD=YES>> configure\CONFIG_SITE
+	echo [INFO] EPICS set up for static build
+) || (
+	echo [INFO] EPICS set up for dynamic build
+)
+echo.%CONFIGURATION% | findstr /C:"debug">nul && (
+	echo HOST_OPT=NO>> configure\CONFIG_SITE
+	echo [INFO] EPICS set up for debug build
+) || (
+	echo [INFO] EPICS set up for optimized build
+)
+
 if "%TOOLCHAIN%"=="cygwin" (
-    echo.%CONFIGURATION% | findstr /C:"static">nul && (
-        echo SHARED_LIBRARIES=NO>> configure\CONFIG_SITE
-        echo STATIC_BUILD=YES>> configure\CONFIG_SITE
-        echo [INFO] EPICS set up for static build
-    ) || (
-        echo [INFO] EPICS set up for dynamic build
-    )
-    echo.%CONFIGURATION% | findstr /C:"debug">nul && (
-        echo HOST_OPT=NO>> configure\CONFIG_SITE
-        echo [INFO] EPICS set up for debug build
-    ) || (
-        echo [INFO] EPICS set up for optimized build
-    )
     if "%OS%"=="64BIT" (
         echo [INFO] Installing Cygwin 64bit and dependencies
         @powershell -Command "(new-object net.webclient).DownloadFile('http://www.cygwin.com/setup-x86_64.exe', 'C:\cygwin64\setup-x86_64.exe')"
@@ -38,22 +39,6 @@ if "%TOOLCHAIN%"=="cygwin" (
         echo [INFO] Installing Cygwin 32bit and dependencies
         @powershell -Command "(new-object net.webclient).DownloadFile('http://www.cygwin.com/setup-x86.exe', 'C:\cygwin\setup-x86.exe')"
         C:\cygwin\setup-x86.exe -q -P "libreadline-devel,libncursesw-devel"
-    )
-)
-
-if "%TOOLCHAIN%"=="mingw" (
-    echo.%CONFIGURATION% | findstr /C:"static">nul && (
-        echo SHARED_LIBRARIES=NO>> configure\CONFIG_SITE
-        echo STATIC_BUILD=YES>> configure\CONFIG_SITE
-        echo [INFO] EPICS set up for static build
-    ) || (
-        echo [INFO] EPICS set up for dynamic build
-    )
-    echo.%CONFIGURATION% | findstr /C:"debug">nul && (
-        echo HOST_OPT=NO>> configure\CONFIG_SITE
-        echo [INFO] EPICS set up for debug build
-    ) || (
-        echo [INFO] EPICS set up for optimized build
     )
 )
 
