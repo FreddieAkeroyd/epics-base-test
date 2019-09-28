@@ -16,18 +16,23 @@ if "%PLATFORM%"=="x86" set OS=32BIT
 
 echo [INFO] Platform: %OS%
 
+:: with MSVC either static or debug can be handled as part
+:: of EPICS_HOST_ARCH but not both. So we set the appropriate
+:: options in CONFIG_SITE. For mingw and cygwin they are missing
+:: some static and debug targets so set things here too
 echo.%CONFIGURATION% | findstr /C:"static">nul && (
-	echo SHARED_LIBRARIES=NO>> configure\CONFIG_SITE
-	echo STATIC_BUILD=YES>> configure\CONFIG_SITE
-	echo [INFO] EPICS set up for static build
+    echo SHARED_LIBRARIES=NO>> configure\CONFIG_SITE
+    echo STATIC_BUILD=YES>> configure\CONFIG_SITE
+    echo [INFO] EPICS set up for static build
 ) || (
-	echo [INFO] EPICS set up for dynamic build
+    echo [INFO] EPICS set up for dynamic build
 )
+
 echo.%CONFIGURATION% | findstr /C:"debug">nul && (
-	echo HOST_OPT=NO>> configure\CONFIG_SITE
-	echo [INFO] EPICS set up for debug build
+    echo HOST_OPT=NO>> configure\CONFIG_SITE
+    echo [INFO] EPICS set up for debug build
 ) || (
-	echo [INFO] EPICS set up for optimized build
+    echo [INFO] EPICS set up for optimized build
 )
 
 if "%TOOLCHAIN%"=="cygwin" (
