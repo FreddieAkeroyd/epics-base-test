@@ -51,3 +51,12 @@ echo [INFO] Installing Make 4.2.1 from ANL web site
 curl -fsS --retry 3 -o C:\tools\make-4.2.1.zip https://epics.anl.gov/download/tools/make-4.2.1-win64.zip
 cd \tools
 "C:\Program Files\7-Zip\7z" e make-4.2.1.zip
+
+set "PERLVER=5.30.0.1"
+echo [INFO] Installing Strawberry Perl %PERLVER%
+curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-64bit.zip
+cd \tools
+"C:\Program Files\7-Zip\7z" x perl-%PERLVER%.zip -oC:\Strawberry
+cd \Strawberry
+call relocation.pl.bat
+:: we set PATH in appveyor-make.bat

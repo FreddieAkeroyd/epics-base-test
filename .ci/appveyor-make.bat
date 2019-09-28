@@ -64,6 +64,9 @@ if "%TOOLCHAIN%"=="mingw" (
     goto Finish
 )
 
+REM set perl path
+set "PATH=c:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;%PATH%"
+
 set "VSINSTALL=C:\Program Files (x86)\Microsoft Visual Studio %TOOLCHAIN%"
 if not exist "%VSINSTALL%\" set "VSINSTALL=C:\Program Files (x86)\Microsoft Visual Studio\%TOOLCHAIN%\Community"
 if not exist "%VSINSTALL%\" goto MSMissing
