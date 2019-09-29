@@ -65,7 +65,7 @@ if "%TOOLCHAIN%"=="mingw" (
 )
 
 if "%TOOLCHAIN%"=="2019" (
-    :: set perl path
+	echo [INFO] Setting strawberry perl path
     set "PATH=c:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%"
 )
 
