@@ -40,8 +40,8 @@ MAIN(epicsMathTest)
 #if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoBegin("Known failure on windows-x64");
 #endif
-    testOk1(epicsINF + (-epicsINF) != 0.0);
-    testOk1((-epicsINF) + epicsINF != 0.0);
+    testOk1(epicsINF + -epicsINF != 0.0);
+    testOk1(-epicsINF + epicsINF != 0.0);
 #if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoEnd();
 #endif
@@ -53,8 +53,8 @@ MAIN(epicsMathTest)
 #if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoBegin("Known failure on windows-x64");
 #endif
-    testOk1(isnan(epicsINF + (-epicsINF)));
-    testOk1(isnan((-epicsINF) + epicsINF));
+    testOk1(isnan(epicsINF + -epicsINF));
+    testOk1(isnan(-epicsINF + epicsINF));
 #if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoEnd();
 #endif
@@ -72,8 +72,8 @@ MAIN(epicsMathTest)
 #if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoBegin("Known failure on windows-x64");
 #endif
-    testOk1(isnan(epicsNAN + (-epicsNAN)));
-    testOk1(isnan((-epicsNAN) + epicsNAN));
+    testOk1(isnan(epicsNAN + -epicsNAN));
+    testOk1(isnan(-epicsNAN + epicsNAN));
 #if defined(_aaaWIN64) && defined(_MSC_VER)
     testTodoEnd();
 #endif

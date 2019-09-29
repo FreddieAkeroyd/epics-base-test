@@ -64,8 +64,10 @@ if "%TOOLCHAIN%"=="mingw" (
     goto Finish
 )
 
-REM set perl path
-set "PATH=c:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;%PATH%"
+if "%TOOLCHAIN%" == "2019" (
+    REM set perl path
+    set "PATH=c:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%"
+)
 
 set "VSINSTALL=C:\Program Files (x86)\Microsoft Visual Studio %TOOLCHAIN%"
 if not exist "%VSINSTALL%\" set "VSINSTALL=C:\Program Files (x86)\Microsoft Visual Studio\%TOOLCHAIN%\Community"
