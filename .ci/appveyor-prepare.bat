@@ -59,6 +59,6 @@ if "%TOOLCHAIN%"=="2019" (
     cd \tools
     "C:\Program Files\7-Zip\7z" x perl-%PERLVER%.zip -oC:\strawberry
     cd \strawberry
+    :: we set PATH in appveyor-build.bat
     call relocation.pl.bat
-    :: we set PATH in appveyor-make.bat
 )

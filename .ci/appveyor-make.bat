@@ -64,8 +64,8 @@ if "%TOOLCHAIN%"=="mingw" (
     goto Finish
 )
 
-if "%TOOLCHAIN%" == "2019" (
-    REM set perl path
+if "%TOOLCHAIN%"=="2019" (
+    :: set perl path
     set "PATH=c:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%"
 )
 
