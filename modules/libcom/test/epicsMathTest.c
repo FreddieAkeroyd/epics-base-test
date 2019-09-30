@@ -28,7 +28,7 @@ MAIN(epicsMathTest)
     float epicsINF_ = epicsINF;
     float epicsNAN_ = epicsNAN;
     
-    testPlan(42);
+    testPlan(38);
     
     testOk1(!isnan(0.0));
     testOk1(!isinf(0.0));
