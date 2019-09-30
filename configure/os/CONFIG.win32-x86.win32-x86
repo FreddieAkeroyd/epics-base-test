@@ -296,3 +296,5 @@ MT_EXE_COMMAND_NO = $(MT.exe) "-outputresource:$@;\#1"
 MT_EXE_COMMAND1 = $(MT_EXE_COMMAND_$(STATIC_BUILD))
 MT_DLL_COMMAND = $(MT_DLL_COMMAND$(shell $(PERL) $(TOOLS)/useManifestTool.pl))
 MT_EXE_COMMAND = $(MT_EXE_COMMAND$(shell $(PERL) $(TOOLS)/useManifestTool.pl))
+
+PROVE = prove.bat
