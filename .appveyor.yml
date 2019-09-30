@@ -34,8 +34,8 @@ skip_commits:
 configuration:
   - dynamic
   - static
-  - dynamic-debug
-  - static-debug
+#  - dynamic-debug
+#  - static-debug
 
 # Environment variables: compiler toolchain
 environment:
