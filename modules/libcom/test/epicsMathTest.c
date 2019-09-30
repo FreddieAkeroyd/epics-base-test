@@ -20,6 +20,13 @@ MAIN(epicsMathTest)
     double huge = 1e300;
     double tiny = 1e-300;
     double c;
+    /*
+     * we need to create these to avoid issues with "NaN + -NaN" etc and
+     * compiler optimisation. In the real world we would
+     * see a + -b rather than a + -a
+     */
+    float epicsINF_ = epicsINF;
+    float epicsNAN_ = epicsNAN;
     
     testPlan(35);
     
@@ -28,29 +35,17 @@ MAIN(epicsMathTest)
     
     testOk1(!isnan(epicsINF));
     testOk1(isinf(epicsINF));
-    testOk1(epicsINF == epicsINF);
+    testOk1(epicsINF == epicsINF_);
     testOk1(epicsINF > 0.0);
-    testOk1(epicsINF - epicsINF != 0.0);
+    testOk1(epicsINF - epicsINF_ != 0.0);
 
-#if defined(_WIN64) && defined(_MSC_VER)
-    testTodoBegin("Known failure on windows-x64");
-#endif
-    testOk1(epicsINF + -epicsINF != 0.0);
-    testOk1(-epicsINF + epicsINF != 0.0);
-#if defined(_WIN64) && defined(_MSC_VER)
-    testTodoEnd();
-#endif
+    testOk1(epicsINF + -epicsINF_ != 0.0);
+    testOk1(-epicsINF + epicsINF_ != 0.0);
 
     testOk1(isnan(epicsINF - epicsINF));
 
-#if defined(_WIN64) && defined(_MSC_VER)
-    testTodoBegin("Known failure on windows-x64");
-#endif
-    testOk1(isnan(epicsINF + -epicsINF));
-    testOk1(isnan(-epicsINF + epicsINF));
-#if defined(_WIN64) && defined(_MSC_VER)
-    testTodoEnd();
-#endif
+    testOk1(isnan(epicsINF + -epicsINF_));
+    testOk1(isnan(-epicsINF + epicsINF_));
     
     testOk1(isnan(epicsNAN));
     testOk1(!isinf(epicsNAN));
@@ -62,14 +57,8 @@ MAIN(epicsMathTest)
     testOk1(!(epicsNAN > epicsNAN));
     testOk1(isnan(epicsNAN - epicsNAN));
 
-#if defined(_WIN64) && defined(_MSC_VER)
-    testTodoBegin("Known failure on windows-x64");
-#endif
-    testOk1(isnan(epicsNAN + -epicsNAN));
-    testOk1(isnan(-epicsNAN + epicsNAN));
-#if defined(_WIN64) && defined(_MSC_VER)
-    testTodoEnd();
-#endif
+    testOk1(isnan(epicsNAN + -epicsNAN_));
+    testOk1(isnan(-epicsNAN + epicsNAN_));
     
     c = huge / tiny;
     testOk(!isnan(c), "!isnan(1e300 / 1e-300)");
