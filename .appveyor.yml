@@ -14,7 +14,6 @@ version: base-{branch}-{build}
 init:
   # Set autocrlf to make batch files work
   - git config --global core.autocrlf true
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 # Set clone depth (do not fetch complete history)
 clone_depth: 50
@@ -33,8 +32,8 @@ skip_commits:
 
 # Build Configurations: dll/static, regular/debug
 configuration:
-#  - dynamic
-#  - static
+  - dynamic
+  - static
   - dynamic-debug
   - static-debug
 
@@ -92,9 +91,9 @@ test_script:
 #---------------------------------#
 ## if you want to connect by remote desktop to a failed build, uncomment these lines
 ## note that you will need to connect within the usual build timeout limit (60 minutes)
-on_failure:
+#on_failure:
 #  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 
 #---------------------------------#
