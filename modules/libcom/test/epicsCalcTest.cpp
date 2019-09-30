@@ -294,6 +294,13 @@ static inline double MIN(double a, double b, double c, double d, double e,
 MAIN(epicsCalcTest)
 {
     int repeat;
+    /*
+     * we need to create these to avoid issues with "NaN + -NaN" etc
+     * and compiler optimisation. In the real world we would see a + -b
+     * rather than a + -a
+     * calc expressions are case insensive, so we can use "NaN + -NAN" in C
+     */
+    float inf = Inf, nan = NaN;
     const double a=1.0, b=2.0, c=3.0, d=4.0, e=5.0, f=6.0,
 		 g=7.0, h=8.0, i=9.0, j=10.0, k=11.0, l=12.0;
     
@@ -612,19 +619,11 @@ MAIN(epicsCalcTest)
     testExpr(0.0 + NaN);
     testExpr(Inf + 0.0);
     testExpr(Inf + Inf);
-#if defined(_aaWIN64) && defined(_MSC_VER)
-    testCalc("Inf + -Inf", NaN);
-#else
-    testExpr(Inf + -Inf);
-#endif
+    testExpr(Inf + -inf);
     testExpr(Inf + NaN);
     testExpr(-Inf + 0.0);
-#if defined(_aaWIN64) && defined(_MSC_VER)
-    testCalc("-Inf + Inf", NaN);
-#else
-    testExpr(-Inf + Inf);
-#endif
-    testExpr(-Inf + -Inf);
+    testExpr(-Inf + inf);
+    testExpr(-Inf + -inf);
     testExpr(-Inf + NaN);
     testExpr(NaN + 0.0);
     testExpr(NaN + Inf);
@@ -638,11 +637,11 @@ MAIN(epicsCalcTest)
     testExpr(0.0 - NaN);
     testExpr(Inf - 0.0);
     testExpr(Inf - Inf);
-    testExpr(Inf - -Inf);
+    testExpr(Inf - -inf);
     testExpr(Inf - NaN);
     testExpr(-Inf - 0.0);
-    testExpr(-Inf - Inf);
-    testExpr(-Inf - -Inf);
+    testExpr(-Inf - inf);
+    testExpr(-Inf - -inf);
     testExpr(-Inf - NaN);
     testExpr(NaN - 0.0);
     testExpr(NaN - Inf);
