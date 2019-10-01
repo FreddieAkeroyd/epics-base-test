@@ -55,7 +55,8 @@ cd \tools
 if "%TOOLCHAIN%"=="2019" (
     set "PERLVER=5.30.0.1"
     echo [INFO] Installing Strawberry Perl %PERLVER%
-    curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-64bit.zip
+    :: curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-64bit.zip
+	curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%.zip ftp://ftp.nd.rl.ac.uk/scratch/Freddie/strawberry-perl-%PERLVER%-64bit.zip
     cd \tools
     "C:\Program Files\7-Zip\7z" x perl-%PERLVER%.zip -oC:\strawberry
     cd \strawberry
