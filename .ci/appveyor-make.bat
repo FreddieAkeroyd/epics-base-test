@@ -20,6 +20,7 @@ echo.%CONFIGURATION% | findstr /C:"static">nul && (
 )
 
 set MY_OS=64BIT
+set MY_PERL=perl
 if "%PLATFORM%"=="x86" set MY_OS=32BIT
 
 echo [INFO] Platform: %MY_OS%
@@ -61,6 +62,24 @@ if "%TOOLCHAIN%"=="mingw" (
     )
     echo [INFO] Compiler Version
     gcc -v
+    goto Finish
+)
+
+if "%TOOLCHAIN%"=="wsl-ubuntu" (
+    set "MAKE=make"
+    set "MY_MAKE=bash -c make"
+    set "MY_PERL=bash -c perl"
+    if "%MY_OS%"=="64BIT" (
+        set "EPICS_HOST_ARCH=linux-x86_64"
+        echo [INFO] WSL Ubuntu Toolchain 64bit
+    ) else (
+        set "EPICS_HOST_ARCH=linux-x86"
+        echo [INFO] WSL Ubuntu Toolchain 32bit
+    )
+    wslconfig /setdefault ubuntu
+    wsl lsb_release -a
+    echo [INFO] Compiler Version
+    wsl gcc -v
     goto Finish
 )
 
@@ -141,10 +160,13 @@ echo [INFO] Compiler Version
 cl
 
 :Finish
+if "%MY_MAKE%" == "" (
+    set "MY_MAKE=%MAKE%"
+)
 echo [INFO] EPICS_HOST_ARCH: %EPICS_HOST_ARCH%
 echo [INFO] Make version
-%MAKE% --version
+%MY_MAKE% --version
 echo [INFO] Perl version
-perl --version
+%MY_PERL% --version
 
-%MAKE% %MAKEARGS% %*
+%MY_MAKE% %MAKEARGS% %*
