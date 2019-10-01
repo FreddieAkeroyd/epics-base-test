@@ -33,10 +33,10 @@ skip_commits:
 
 # Build Configurations: dll/static, regular/debug
 configuration:
-  - dynamic
-  - static
   - dynamic-debug
   - static-debug
+#  - dynamic
+#  - static
 
 # Environment variables: compiler toolchain
 environment:
