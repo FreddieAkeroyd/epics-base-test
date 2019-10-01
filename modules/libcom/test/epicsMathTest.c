@@ -28,15 +28,13 @@ MAIN(epicsMathTest)
     float epicsINF_ = epicsINF;
     float epicsNAN_ = epicsNAN;
     
-    testPlan(38);
+    testPlan(35);
     
     testOk1(!isnan(0.0));
     testOk1(!isinf(0.0));
     
     testOk1(!isnan(epicsINF));
     testOk1(isinf(epicsINF));
-    testOk1(isinf(-epicsINF));
-
     testOk1(epicsINF == epicsINF_);
     testOk1(epicsINF > 0.0);
     testOk1(epicsINF - epicsINF_ != 0.0);
@@ -45,8 +43,6 @@ MAIN(epicsMathTest)
     testOk1(-epicsINF + epicsINF_ != 0.0);
 
     testOk1(isnan(epicsINF - epicsINF));
-    testOk1(isnan(0.0 * epicsINF));
-    testOk1(isnan(epicsINF /epicsINF));
 
     testOk1(isnan(epicsINF + -epicsINF_));
     testOk1(isnan(-epicsINF + epicsINF_));
