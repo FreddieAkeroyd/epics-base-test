@@ -47,18 +47,26 @@ if "%TOOLCHAIN%"=="cygwin" (
     )
 )
 
-echo [INFO] Installing Make 4.2.1 from ANL web site
-curl -fsS --retry 3 -o C:\tools\make-4.2.1.zip https://epics.anl.gov/download/tools/make-4.2.1-win64.zip
-cd \tools
-"C:\Program Files\7-Zip\7z" e make-4.2.1.zip
-
+REM c:\downloads is cached by appveyor - see .appveyor.yml
+if not exist "C:\Downloads\make-4.2.1.zip" (
+    echo [INFO] Downloading Make 4.2.1 from ANL web site
+    curl -fsS --retry 3 -o C:\Downloads\make-4.2.1.zip https://epics.anl.gov/download/tools/make-4.2.1-win64.zip
+)
 set "PERLVER=5.30.0.1"
+if not exist "C:\Downloads\perl-%PERLVER%.zip" (
+    echo [INFO] Downloading Strawberry Perl %PERLVER%
+    curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-64bit.zip
+)
+
+
+echo [INFO] Installing Make 4.2.1
+cd \tools
+"C:\Program Files\7-Zip\7z" e c:\Downloads\make-4.2.1.zip
+
 if "%TOOLCHAIN%"=="2019" (
     echo [INFO] Installing Strawberry Perl %PERLVER%
-    curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-64bit.zip
-	::curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%.zip ftp://ftp.nd.rl.ac.uk/scratch/Freddie/strawberry-perl-%PERLVER%-64bit.zip
     cd \tools
-    "C:\Program Files\7-Zip\7z" x perl-%PERLVER%.zip -oC:\strawberry
+    "C:\Program Files\7-Zip\7z" x C:\Downloads\perl-%PERLVER%.zip -oC:\strawberry
     cd \strawberry
     :: we set PATH in appveyor-build.bat
     call relocation.pl.bat

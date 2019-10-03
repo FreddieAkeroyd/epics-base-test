@@ -436,6 +436,9 @@ $(INSTALL_BIN)/%: ../os/$(OS_CLASS)/%
 $(INSTALL_BIN)/%: %
 	$(ECHO) "Installing created executable $@"
 	@$(INSTALL_PRODUCT) -d -m $(BIN_PERMISSIONS) $< $(INSTALL_BIN)
+ifneq (,$(wildcard $(basename $<).pdb))
+	@$(INSTALL_PRODUCT) -d -m $(LIB_PERMISSIONS) $(basename $<).pdb $(INSTALL_BIN)
+endif
 
 $(INSTALL_BIN)/%: ../%
 	$(ECHO) "Installing script $@"
@@ -454,6 +457,9 @@ endif # SUFFIX
 $(INSTALL_SHRLIBS): $(INSTALL_SHRLIB)/%: %
 	$(ECHO) "Installing shared library $@"
 	@$(INSTALL_LIBRARY) -d -m $(SHRLIB_PERMISSIONS) $< $(INSTALL_SHRLIB)
+ifneq (,$(wildcard $(basename $<).pdb))
+	@$(INSTALL_LIBRARY) -d -m $(LIB_PERMISSIONS) $(basename $<).pdb $(INSTALL_SHRLIB)
+endif
 ifneq ($(SHRLIB_SUFFIX),$(SHRLIB_SUFFIX_BASE))
 ifneq (,$(strip $(SHRLIB_VERSION)))
 	@$(RM) $(subst $(SHRLIB_SUFFIX),$(SHRLIB_SUFFIX_BASE),$@)

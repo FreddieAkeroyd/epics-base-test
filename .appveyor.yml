@@ -18,6 +18,9 @@ init:
 # Set clone depth (do not fetch complete history)
 clone_depth: 50
 
+cache:
+- C:\Downloads
+
 # Skipping commits affecting only specific files
 skip_commits:
   files:
@@ -83,9 +86,11 @@ build_script:
   - cmd: .ci/appveyor-make.bat
 
 test_script:
-  - cmd: .ci/appveyor-make.bat runtests
+  - cmd: .ci/appveyor-make.bat tapfiles
+  - cmd: .ci/appveyor-make.bat test-results
 
-
+on_finish:
+  - ps: Get-ChildItem *.tap -Recurse -Force | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 #---------------------------------#
 #         debugging               #
 #---------------------------------#
