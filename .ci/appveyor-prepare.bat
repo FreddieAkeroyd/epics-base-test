@@ -47,12 +47,10 @@ if "%TOOLCHAIN%"=="cygwin" (
     )
 )
 
-REM this is listed as an appveyor chache directory in .appveyor.yml
+:: C:\Downloads is listed as an appveyor chache directory in .appveyor.yml
 if not exist "C:\Downloads" (
     mkdir C:\Downloads
 )
-
-REM c:\downloads is cached by appveyor - see .appveyor.yml
 if not exist "C:\Downloads\make-4.2.1.zip" (
     echo [INFO] Downloading Make 4.2.1 from ANL web site
     curl -fsS --retry 3 -o C:\Downloads\make-4.2.1.zip https://epics.anl.gov/download/tools/make-4.2.1-win64.zip
@@ -62,7 +60,6 @@ if not exist "C:\Downloads\perl-%PERLVER%.zip" (
     echo [INFO] Downloading Strawberry Perl %PERLVER%
     curl -fsS --retry 3 -o C:\Downloads\perl-%PERLVER%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-64bit.zip
 )
-
 
 echo [INFO] Installing Make 4.2.1
 cd \tools
