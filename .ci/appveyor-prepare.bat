@@ -47,6 +47,7 @@ if "%TOOLCHAIN%"=="cygwin" (
     )
 )
 
+REM this is listed as an appveyor chache directory in .appveyor.yml
 if not exist "C:\Downloads" (
     mkdir C:\Downloads
 )
@@ -59,7 +60,7 @@ if not exist "C:\Downloads\make-4.2.1.zip" (
 set "PERLVER=5.30.0.1"
 if not exist "C:\Downloads\perl-%PERLVER%.zip" (
     echo [INFO] Downloading Strawberry Perl %PERLVER%
-    curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-64bit.zip
+    curl -fsS --retry 3 -o C:\Downloads\perl-%PERLVER%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-64bit.zip
 )
 
 
