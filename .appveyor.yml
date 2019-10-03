@@ -18,8 +18,9 @@ init:
 # Set clone depth (do not fetch complete history)
 clone_depth: 50
 
+# the cache is invalidated whenever we change appveyor-prepare.bat
 cache:
-- C:\Downloads
+- C:\Downloads -> .ci\appveyor-prepare.bat
 
 # Skipping commits affecting only specific files
 skip_commits:
@@ -43,11 +44,11 @@ configuration:
 # Environment variables: compiler toolchain
 environment:
   matrix:
+  - TOOLCHAIN: 10.0
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     TOOLCHAIN: 2019
   - TOOLCHAIN: 11.0
   - TOOLCHAIN: 12.0
-  - TOOLCHAIN: 10.0
   - TOOLCHAIN: 14.0
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     TOOLCHAIN: 2017
