@@ -47,6 +47,10 @@ if "%TOOLCHAIN%"=="cygwin" (
     )
 )
 
+if not exist "C:\Downloads" (
+    mkdir C:\Downloads
+)
+
 REM c:\downloads is cached by appveyor - see .appveyor.yml
 if not exist "C:\Downloads\make-4.2.1.zip" (
     echo [INFO] Downloading Make 4.2.1 from ANL web site
