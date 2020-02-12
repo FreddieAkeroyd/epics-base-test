@@ -69,12 +69,12 @@ matrix:
   - platform: x86
     TOOLCHAIN: mingw
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-  - platform: x86
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    TOOLCHAIN: 2019
-  - platform: x86
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    TOOLCHAIN: 2017
+#  - platform: x86
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+#    TOOLCHAIN: 2019
+#  - platform: x86
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#    TOOLCHAIN: 2017
 
 
 #---------------------------------#
