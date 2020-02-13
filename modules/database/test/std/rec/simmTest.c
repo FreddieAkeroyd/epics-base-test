@@ -435,7 +435,7 @@ void testSimmDelay(const char *name,
     testdbPutFieldOk(namePROC, DBR_LONG, 0);
     testdbGetFieldEqual(namePACT, DBR_USHORT, 1);
     epicsTimeGetCurrent(&now);
-    epicsThreadSleep(1.75*delay);
+    epicsThreadSleep(2.5*delay);
     testdbGetFieldEqual(namePACT, DBR_USHORT, 0);
     testOk(epicsTimeLessThan(&now, mytime), "time stamp taken from second pass processing");
 
