@@ -33,7 +33,7 @@ static int cond_search(const char **ppinst, int match);
 #endif
 
 /* Turn off global optimization for 64-bit MSVC builds */
-#if defined(_WIN32) && defined(_M_X64) && !defined(_MINGW)
+#if 0 && defined(_WIN32) && defined(_M_X64) && !defined(_MINGW)
 #  pragma optimize("g", off)
 #endif
 
@@ -298,6 +298,7 @@ epicsShareFunc long
          * overflows better.)
          */
         #define d2i(x) ((x)<0?(epicsInt32)(x):(epicsInt32)(epicsUInt32)(x))
+        #define d2ui(x) ((x)<0?(epicsUInt32)(epicsInt32)(x):(epicsUInt32)(x))
 
 	case BIT_OR:
 	    top = *ptop--;
@@ -323,14 +324,24 @@ epicsShareFunc long
          * double-casting through unsigned here is important, see above.
          */
 
-	case RIGHT_SHIFT:
+	case RIGHT_SHIFT_ARITH:
 	    top = *ptop--;
 	    *ptop = (double)(d2i(*ptop) >> (d2i(top) & 31));
 	    break;
 
-	case LEFT_SHIFT:
+	case LEFT_SHIFT_ARITH:
 	    top = *ptop--;
 	    *ptop = (double)(d2i(*ptop) << (d2i(top) & 31));
+	    break;
+
+	case RIGHT_SHIFT_LOGIC:
+	    top = *ptop--;
+	    *ptop = (double)(d2ui(*ptop) >> (d2ui(top) & 31u));
+	    break;
+
+	case LEFT_SHIFT_LOGIC:
+	    top = *ptop--;
+	    *ptop = (double)(d2ui(*ptop) << (d2ui(top) & 31u));
 	    break;
 
 	case NOT_EQ:
@@ -387,7 +398,7 @@ epicsShareFunc long
     *presult = *ptop;
     return 0;
 }
-#if defined(_WIN32) && defined(_M_X64) && !defined(_MINGW)
+#if 0 && defined(_WIN32) && defined(_M_X64) && !defined(_MINGW)
 #  pragma optimize("", on)
 #endif
 
