@@ -48,7 +48,6 @@ epicsShareFunc long
     double *ptop;			/* stack pointer */
     double top; 			/* value from top of stack */
     epicsInt32 itop;			/* integer from top of stack */
-    epicsUInt32 utop;			/* unsigned integer from top of stack */
     int op;
     int nargs;
 
@@ -287,30 +286,36 @@ epicsShareFunc long
 	    *ptop = ! *ptop;
 	    break;
 
-        /* For bitwise operations on values with bit 31 set, double values
-         * must first be cast to unsigned to correctly set that bit; the
-         * double value must be negative in that case. The result must be
-         * cast to a signed integer before converting to the double result.
+        /* Be VERY careful converting double to int in case bit 31 is set!
+         * Out-of-range errors give very different results on different sytems.
+         * Convert negative doubles to signed and positive doubles to unsigned
+         * first to avoid overflows if bit 32 is set.
+         * The result is always signed, values with bit 31 set are negative
+         * to avoid problems when writing the value to signed integer fields
+         * like longout.VAL or ao.RVAL. However unsigned fields may give
+         * problems on some architectures. (Fewer than giving problems with
+         * signed integer. Maybe the conversion functions should handle
+         * overflows better.)
          */
+        #define d2i(x) ((x)<0?(epicsInt32)(x):(epicsInt32)(epicsUInt32)(x))
 
 	case BIT_OR:
-	    utop = *ptop--;
-	    *ptop = (epicsInt32) ((epicsUInt32) *ptop | utop);
+	    top = *ptop--;
+	    *ptop = (double)(d2i(*ptop) | d2i(top));
 	    break;
 
 	case BIT_AND:
-	    utop = *ptop--;
-	    *ptop = (epicsInt32) ((epicsUInt32) *ptop & utop);
+	    top = *ptop--;
+	    *ptop = (double)(d2i(*ptop) & d2i(top));
 	    break;
 
 	case BIT_EXCL_OR:
-	    utop = *ptop--;
-	    *ptop = (epicsInt32) ((epicsUInt32) *ptop ^ utop);
+	    top = *ptop--;
+	    *ptop = (double)(d2i(*ptop) ^ d2i(top));
 	    break;
 
 	case BIT_NOT:
-	    utop = *ptop;
-	    *ptop = (epicsInt32) ~utop;
+	    *ptop = (double)~d2i(*ptop);
 	    break;
 
         /* The shift operators use signed integers, so a right-shift will
@@ -319,13 +324,13 @@ epicsShareFunc long
          */
 
 	case RIGHT_SHIFT:
-	    utop = *ptop--;
-	    *ptop = ((epicsInt32) (epicsUInt32) *ptop) >> (utop & 31);
+	    top = *ptop--;
+	    *ptop = (double)(d2i(*ptop) >> (d2i(top) & 31));
 	    break;
 
 	case LEFT_SHIFT:
-	    utop = *ptop--;
-	    *ptop = ((epicsInt32) (epicsUInt32) *ptop) << (utop & 31);
+	    top = *ptop--;
+	    *ptop = (double)(d2i(*ptop) << (d2i(top) & 31));
 	    break;
 
 	case NOT_EQ:

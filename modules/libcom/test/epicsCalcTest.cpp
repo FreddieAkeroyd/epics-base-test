@@ -104,7 +104,7 @@ void testUInt32Calc(const char *expr, epicsUInt32 expected) {
             testDiag("calcPerform: error evaluating '%s'", expr);
         }
 
-    uresult = (epicsUInt32) result;
+    uresult = (epicsUInt32)(epicsInt32)result;
     pass = (uresult == expected);
     if (!testOk(pass, "%s", expr)) {
         testDiag("Expected result is 0x%x (%u), actually got 0x%x (%u)",
@@ -297,7 +297,7 @@ MAIN(epicsCalcTest)
     const double a=1.0, b=2.0, c=3.0, d=4.0, e=5.0, f=6.0,
 		 g=7.0, h=8.0, i=9.0, j=10.0, k=11.0, l=12.0;
     
-    testPlan(613);
+    testPlan(617);
 
     /* LITERAL_OPERAND elements */
     testExpr(0);
@@ -945,7 +945,9 @@ MAIN(epicsCalcTest)
     testUInt32Calc("~0xaaaaaaaa", 0x55555555u);
     testUInt32Calc("~~0xaaaaaaaa", 0xaaaaaaaau);
     testUInt32Calc("0xaaaaaaaa >> 8", 0xffaaaaaau);
+    testUInt32Calc("0x55555555 >> 8", 0x00555555u);
     testUInt32Calc("0xaaaaaaaa << 8", 0xaaaaaa00u);
+    testUInt32Calc("0x55555555 << 8", 0x55555500u);
     //   using integer literals assigned to variables
     testUInt32Calc("a:=0xaaaaaaaa; b:=0xffff0000; a AND b", 0xaaaa0000u);
     testUInt32Calc("a:=0xaaaaaaaa; b:=0xffff0000; a OR b", 0xffffaaaau);
@@ -954,6 +956,8 @@ MAIN(epicsCalcTest)
     testUInt32Calc("a:=0xaaaaaaaa; ~~a", 0xaaaaaaaau);
     testUInt32Calc("a:=0xaaaaaaaa; a >> 8", 0xffaaaaaau);
     testUInt32Calc("a:=0xaaaaaaaa; a << 8", 0xaaaaaa00u);
+    testUInt32Calc("a:=0x55555555; a >> 8", 0x00555555u);
+    testUInt32Calc("a:=0x55555555; a << 8", 0x55555500u);
 
     // Test proper conversion of double values (+ 0.1 enforces double literal)
     // when used as inputs to the bitwise operations.

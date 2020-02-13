@@ -66,9 +66,9 @@ matrix:
   # skip 64-bit for older and 32-bit for newer
   - platform: x64
     TOOLCHAIN: 11.0
-  - platform: x86
-    TOOLCHAIN: mingw
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+#  - platform: x86
+#    TOOLCHAIN: mingw
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 #  - platform: x86
 #    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 #    TOOLCHAIN: 2019
@@ -113,11 +113,11 @@ on_finish:
 #         notifications           #
 #---------------------------------#
 
-notifications:
-
-  - provider: Email
-    to:
-      - core-talk@aps.anl.gov
-    on_build_success: false
-
-  - provider: GitHubPullRequest
+#notifications:
+#
+#  - provider: Email
+#    to:
+#      - core-talk@aps.anl.gov
+#    on_build_success: false
+#
+#  - provider: GitHubPullRequest
