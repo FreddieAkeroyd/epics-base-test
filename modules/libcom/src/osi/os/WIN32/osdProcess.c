@@ -67,7 +67,7 @@ epicsShareFunc osiSpawnDetachedProcessReturn epicsShareAPI osiSpawnDetachedProce
         NULL, /* pointer to process security attributes */
         NULL, /* pointer to thread security attributes */
         FALSE, /* handle inheritance flag */
-        CREATE_NEW_PROCESS_GROUP | DETACHED_PROCESS, /* creation flags */
+        CREATE_NEW_PROCESS_GROUP | CREATE_NO_WINDOW, /* creation flags */
         NULL, /* pointer to new environment block (defaults to caller's environement) */
         NULL, /* pointer to current directory name  (defaults to caller's current directory) */
         &startupInfo, /* pointer to STARTUPINFO */
