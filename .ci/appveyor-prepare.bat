@@ -41,11 +41,15 @@ cd \tools
 "C:\Program Files\7-Zip\7z" e make-4.2.1.zip
 
 set "PERLVER=5.30.0.1"
-if "%TOOLCHAIN%"=="2019" (
+if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" (
     echo [INFO] Installing Strawberry Perl %PERLVER%
-    curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-64bit.zip
+	if "%MY_OS%"=="32BIT" (
+        curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%-%MY_OS%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-32bit.zip
+	) else (
+        curl -fsS --retry 3 -o C:\tools\perl-%PERLVER%-%MY_OS%.zip http://strawberryperl.com/download/%PERLVER%/strawberry-perl-%PERLVER%-64bit.zip
+	)
     cd \tools
-    "C:\Program Files\7-Zip\7z" x perl-%PERLVER%.zip -oC:\strawberry
+    "C:\Program Files\7-Zip\7z" x perl-%PERLVER%-%MY_OS%.zip -oC:\strawberry
     cd \strawberry
     :: we set PATH in appveyor-build.bat
     call relocation.pl.bat

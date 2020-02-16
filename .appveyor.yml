@@ -14,6 +14,9 @@ version: base-{branch}-{build}
 init:
   # Set autocrlf to make batch files work
   - git config --global core.autocrlf true
+  # enable RDP while job is running
+#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 
 # Set clone depth (do not fetch complete history)
 clone_depth: 50
@@ -40,10 +43,14 @@ configuration:
 # Environment variables: compiler toolchain
 environment:
   matrix:
-  - TOOLCHAIN: mingw
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    TOOLCHAIN: WSL
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    TOOLCHAIN: strawberry
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     TOOLCHAIN: 2019
+  - TOOLCHAIN: mingw
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     TOOLCHAIN: 2017
   - TOOLCHAIN: 14.0
@@ -64,11 +71,11 @@ matrix:
     TOOLCHAIN: 10.0
   # Exclude to reduce total job runtime
   # skip 64-bit for older and 32-bit for newer
-  - platform: x64
-    TOOLCHAIN: 11.0
-  - platform: x86
-    TOOLCHAIN: mingw
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+#  - platform: x64
+#    TOOLCHAIN: 11.0
+#  - platform: x86
+#    TOOLCHAIN: mingw
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 #  - platform: x86
 #    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 #    TOOLCHAIN: 2019
@@ -105,19 +112,19 @@ on_finish:
 ## so you may want to adjust the build matrix above to just build the one of interest
 
 #on_failure:
-#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 #  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 
 #---------------------------------#
 #         notifications           #
 #---------------------------------#
 
-notifications:
-
-  - provider: Email
-    to:
-      - core-talk@aps.anl.gov
-    on_build_success: false
-
-  - provider: GitHubPullRequest
+#notifications:
+#
+#  - provider: Email
+#    to:
+#      - core-talk@aps.anl.gov
+#    on_build_success: false
+#
+#  - provider: GitHubPullRequest

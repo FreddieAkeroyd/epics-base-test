@@ -23,6 +23,11 @@ set MY_OS=64BIT
 if "%PLATFORM%"=="x86" set MY_OS=32BIT
 
 echo [INFO] Platform: %MY_OS%
+set "PERL=perl"
+
+where sh.exe
+
+echo [INFO] Platform: %MY_OS%
 
 :: Use parallel make, except for 3.14
 set "MAKEARGS=-j2 -Otarget"
@@ -49,6 +54,36 @@ if "%TOOLCHAIN%"=="mingw" (
 if "%TOOLCHAIN%"=="2019" (
     echo [INFO] Setting strawberry perl path
     set "PATH=c:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%"
+)
+
+if "%TOOLCHAIN%"=="strawberry" (
+    set "MAKE=gmake"
+    if "%MY_OS%"=="64BIT" (
+	    set "EPICS_HOST_ARCH=windows-x64-mingw"
+	) else (
+	    set "EPICS_HOST_ARCH=win32-x86-mingw"
+    )	
+    echo [INFO] Setting %MY_OS% strawberry perl and gcc path
+    set "PATH=c:\strawberry\perl\site\bin;C:\strawberry\perl\bin;C:\strawberry\c\bin;%PATH%"
+    echo [INFO] Compiler Version
+    gcc -v
+    goto Finish
+)
+
+if "%TOOLCHAIN%"=="WSL" (
+    wsl lsb_release -a
+    set "MAKE=wsl make"
+    set "PERL=wsl perl"
+	wsl sudo apt -q -y install make gcc g++ libreadline-dev
+    if "%MY_OS%"=="64BIT" (
+	    set "EPICS_HOST_ARCH=linux-x86_64"
+	) else (
+	    set "EPICS_HOST_ARCH=linux-x86"
+    )	
+    echo [INFO] Setting WSL for %MY_OS% compile
+    echo [INFO] Compiler Version
+    wsl gcc -v
+    goto Finish
 )
 
 set "VSINSTALL=C:\Program Files (x86)\Microsoft Visual Studio %TOOLCHAIN%"
@@ -127,6 +162,6 @@ echo [INFO] EPICS_HOST_ARCH: %EPICS_HOST_ARCH%
 echo [INFO] Make version
 %MAKE% --version
 echo [INFO] Perl version
-perl --version
+%PERL% --version
 
 %MAKE% %MAKEARGS% %*
