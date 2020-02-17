@@ -59,10 +59,10 @@ if "%TOOLCHAIN%"=="2019" (
 if "%TOOLCHAIN%"=="strawberry" (
     set "MAKE=gmake"
     if "%MY_OS%"=="64BIT" (
-	    set "EPICS_HOST_ARCH=windows-x64-mingw"
-	) else (
-	    set "EPICS_HOST_ARCH=win32-x86-mingw"
-    )	
+        set "EPICS_HOST_ARCH=windows-x64-mingw"
+    ) else (
+        set "EPICS_HOST_ARCH=win32-x86-mingw"
+    )
     echo [INFO] Setting %MY_OS% strawberry perl and gcc path
     set "PATH=c:\strawberry\perl\site\bin;C:\strawberry\perl\bin;C:\strawberry\c\bin;%PATH%"
     echo [INFO] Compiler Version
@@ -74,12 +74,13 @@ if "%TOOLCHAIN%"=="WSL" (
     wsl lsb_release -a
     set "MAKE=wsl make"
     set "PERL=wsl perl"
-	wsl sudo apt -q -y install make gcc g++ libreadline-dev
+    wsl sudo apt-get -q -y update
+    wsl sudo apt-get -q -y install make gcc g++ libreadline-dev
     if "%MY_OS%"=="64BIT" (
-	    set "EPICS_HOST_ARCH=linux-x86_64"
-	) else (
-	    set "EPICS_HOST_ARCH=linux-x86"
-    )	
+        set "EPICS_HOST_ARCH=linux-x86_64"
+    ) else (
+        set "EPICS_HOST_ARCH=linux-x86"
+    )
     echo [INFO] Setting WSL for %MY_OS% compile
     echo [INFO] Compiler Version
     wsl gcc -v
