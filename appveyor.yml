@@ -40,7 +40,7 @@ configuration:
 # Environment variables: compiler toolchain
 environment:
   matrix:
-- TOOLCHAIN: mingw
+  - TOOLCHAIN: mingw
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     TOOLCHAIN: 2019
