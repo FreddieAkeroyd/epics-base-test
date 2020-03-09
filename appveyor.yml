@@ -40,14 +40,16 @@ configuration:
 # Environment variables: compiler toolchain
 environment:
   matrix:
-  - TOOLCHAIN: 10.0
-  - TOOLCHAIN: 11.0
-  - TOOLCHAIN: 12.0
-  - TOOLCHAIN: 14.0
+- TOOLCHAIN: mingw
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    TOOLCHAIN: 2019
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     TOOLCHAIN: 2017
-  - TOOLCHAIN: mingw
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+  - TOOLCHAIN: 14.0
+  - TOOLCHAIN: 12.0
+  - TOOLCHAIN: 11.0
+  - TOOLCHAIN: 10.0
 
 # Platform: architecture
 platform:
@@ -79,11 +81,11 @@ test_script:
 #         notifications           #
 #---------------------------------#
 
-notifications:
+#notifications:
+#
+#  - provider: Email
+#    to:
+#      - core-talk@aps.anl.gov
+#    on_build_success: false#
 
-  - provider: Email
-    to:
-      - core-talk@aps.anl.gov
-    on_build_success: false
-
-  - provider: GitHubPullRequest
+#  - provider: GitHubPullRequest
