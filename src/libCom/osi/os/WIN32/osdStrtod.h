@@ -28,14 +28,7 @@ extern "C" {
  * strtod works in MSVC 1900 and mingw, use
  * the OS version in those and our own otherwise
  */
-#if (_MSC_VER < 1900) && !defined(_MINGW)
-/*
- * epicsStrtod() for systems with broken strtod() routine
- */
-epicsShareFunc double epicsStrtod(const char *str, char **endp);
-#else
 #  define epicsStrtod strtod
-#endif
 
 #ifdef __cplusplus
 }
